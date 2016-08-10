@@ -16,6 +16,19 @@ names = [
 	"Sigrid"
 ]
 
+monthsInCompany = [
+	36, #"Magnus",
+	36, #"Nils",
+	19, #"Martin",
+	8, #"Caroline",
+	1, #"Emma",
+	0, #"Samuel",
+	10, #"Viktor",
+	7, #"Jacob",
+	9, #"Jonas",
+	24, #"Sigrid"
+]
+
 	#Magnus
 		#Nils
 			#Martin
@@ -90,10 +103,15 @@ def getSeatPairScore(seats):
 
 	return seatPairScore
 
-def objectiveFunction(personOrder, personPairScore, seatPairScore):
+def objectiveFunction(personOrder):
 	p = personOrder
 	r = range(len(p))
 	return sum([personPairScore[p[j]][p[i]]*seatPairScore[j][i] for i in r for j in r])
+
+def objectiveFunction2(personOrder):
+	p = personOrder
+	r = range(len(p))
+	return sum([-abs(monthsInCompany[p[j]] - monthsInCompany[p[i]])*seatPairScore[j][i] for i in r for j in r])
 
 def getNewPersonOrder(personOrder):
 	n = len(personOrder)
@@ -115,7 +133,7 @@ if __name__ == '__main__':
 	personOrder = range(n)
 	# personOrder = [0,3,1,4,2,5]
 
-	temperature = sum([sum(s) for s in personPairScore])
+	temperature = 3000
 	alpha = 0.999
 
 	bestCost = float("inf")
@@ -127,8 +145,8 @@ if __name__ == '__main__':
 	for i in iAll:
 		newPersonOrder = getNewPersonOrder(personOrder)
 
-		cost1 = objectiveFunction(personOrder, personPairScore, seatPairScore)
-		cost2 = objectiveFunction(newPersonOrder, personPairScore, seatPairScore)
+		cost1 = objectiveFunction2(personOrder)
+		cost2 = objectiveFunction2(newPersonOrder)
 
 		costs[i] = cost1
 
