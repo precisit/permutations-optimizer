@@ -36,29 +36,20 @@ def getSeatNeighbors(seats):
 
 			delta = (x2-x1)**2 + (y2-y1)**2
 
-			print seat1, seat2, delta
+			weight = 0
+			if (delta == 1):
+				weight = 1
+			elif (delta == 2):
+				weight = 0.75
+
+			seatNeighborIndexes[i1].append(weight)
+
+	return seatNeighborIndexes
 
 
 
-def getPerson(seat):
-	pass
-
-def getSeat(person):
-	pass
-
-def getNeighboringSeats(seat):
-	pass
-
-def getNeighboringPersons(person):
-	pass
-
-def assignSeats(persons, seats):
-	personKeys = persons.keys()
-	for i, seatKey in enumerate(seats.keys()):
-		seats[seatKey]["person"] = persons[personKeys[i]]
 
 
 
 if __name__ == '__main__':
-	getSeatNeighbors(seats)
-	# print seats
+	print getSeatNeighbors(seats)
