@@ -2,83 +2,91 @@ import random
 import math
 from matplotlib import pyplot as plt
 
-
-names = [
-	"Magnus",
-	"Nils",
-	"Martin",
-	"Caroline",
-	"Emma",
-	"Samuel",
-	"Viktor",
-	"Jacob",
-	"Jonas",
-	"Sigrid"
+people = [
+	{
+		"name": "Sigrid",
+		"months": 30
+	},
+	{
+		"name": "Viktor",
+		"months": 11
+	},
+	{
+		"name": "Amanda",
+		"months": 2
+	},
+	{
+		"name": "Filip",
+		"months": 2
+	},
+	{
+		"name": "Samuel",
+		"months": 1
+	},
+	{
+		"name": "Jacob",
+		"months": 8
+	},
+	{
+		"name": "Kajsabet",
+		"months": 10
+	},
+	{
+		"name": "Jonas",
+		"months": 10
+	},
+	{
+		"name": "Nils",
+		"months": 36
+	},
+	{
+		"name": "Siri",
+		"months": 2
+	},
+	{
+		"name": "Caroline",
+		"months": 9
+	},
+	{
+		"name": "Maria",
+		"months": 2
+	},
+	{
+		"name": "Kerstin",
+		"months": 3
+	},
+	{
+		"name": "Magnus",
+		"months": 36
+	},
+	{
+		"name": "Martin",
+		"months": 20
+	}
 ]
 
-monthsInCompany = [
-	36, #"Magnus",
-	36, #"Nils",
-	19, #"Martin",
-	8, #"Caroline",
-	1, #"Emma",
-	0, #"Samuel",
-	10, #"Viktor",
-	7, #"Jacob",
-	9, #"Jonas",
-	24, #"Sigrid"
-]
-
-	#Magnus
-		#Nils
-			#Martin
-				#Caroline
-					#Emma
-						#Samuel
-							#Viktor
-								#Jacob
-									#Jonas
-										#Sigrid
-personPairScore = [
-	[0,	3,	3,	1,	1,	1,	2,	2,	2,	3], #Magnus
-	[3,	0,	3,	1,	1,	1,	2,	2,	2,	3], #Nils
-	[3,	3,	0,	1,	1,	1,	2,	2,	2,	3], #Martin
-	[1,	1,	1,	0,	1,	1,	1,	1,	1,	2], #Caroline
-	[1,	1,	1,	1,	0,	1,	1,	1,	1,	2], #Emma
-	[1,	1,	1,	1,	1,	0,	1,	1,	1,	1], #Samuel
-	[1,	1,	1,	1,	1,	0,	0,	3,	3,	2], #Viktor
-	[1,	1,	1,	1,	1,	0,	3,	0,	3,	2], #Jacob
-	[1,	1,	1,	1,	1,	0,	3,	3,	0,	2], #Jonas
-	[3,	3,	3,	2,	2,	1,	2,	2,	2,	0] #Sigrid
-]
-
-# One table of six and one table of four
-# seats = [
-# 	[0, 0],
-# 	[1, 0],
-# 	[2, 0],
-# 	[0, 1],
-# 	[1, 1],
-# 	[2, 1],
-# 	[6, 0],
-# 	[7, 0],
-# 	[6, 1],
-# 	[7, 1],
-# ]
-
-# One table of ten
+# Coordinates of seats
 seats = [
 	[0, 0],
 	[1, 0],
 	[2, 0],
 	[3, 0],
 	[4, 0],
+	[5, 0],
+	[6, 0],
+	[7, 0],
 	[0, 1],
 	[1, 1],
 	[2, 1],
 	[3, 1],
 	[4, 1],
+	[5, 1],
+	[6, 1],
+	[7, 1]
 ]
+
+names = [person["name"] for person in people]
+monthsInCompany = [person["months"] for person in people]
 
 def getSeatPairScore(seats):
 	seatPairScore = [[] for seat in seats]
@@ -103,12 +111,7 @@ def getSeatPairScore(seats):
 
 	return seatPairScore
 
-def objectiveFunction(personOrder):
-	p = personOrder
-	r = range(len(p))
-	return sum([personPairScore[p[j]][p[i]]*seatPairScore[j][i] for i in r for j in r])
-
-def objectiveFunction2(personOrder):
+def timeDifferenceObjectiveFunction(personOrder):
 	p = personOrder
 	r = range(len(p))
 	return sum([-abs(monthsInCompany[p[j]] - monthsInCompany[p[i]])*seatPairScore[j][i] for i in r for j in r])
@@ -145,8 +148,8 @@ if __name__ == '__main__':
 	for i in iAll:
 		newPersonOrder = getNewPersonOrder(personOrder)
 
-		cost1 = objectiveFunction2(personOrder)
-		cost2 = objectiveFunction2(newPersonOrder)
+		cost1 = timeDifferenceObjectiveFunction(personOrder)
+		cost2 = timeDifferenceObjectiveFunction(newPersonOrder)
 
 		costs[i] = cost1
 
@@ -171,5 +174,20 @@ if __name__ == '__main__':
 	print "**************"
 	print bestCost, [names[i] for i in personOrder]
 
-	plt.plot(iAll, costs)
+	plt.subplot(2, 1, 1)
+	plt.plot(iAll, [-x for x in costs])
+
+	ax = plt.subplot(2, 1, 2)
+	for i, name in enumerate([names[i] for i in personOrder]):
+		x = seats[i][0]
+		y = seats[i][1]
+		ax.text(x, y, name)
+
+		ax.plot(x-1, y, '.w')
+		ax.plot(x, y-1, '.w')
+		ax.plot(x+1, y, '.w')
+		ax.plot(x, y+1, '.w')
+
+
+
 	plt.show()
