@@ -2,67 +2,64 @@ import random
 import math
 from matplotlib import pyplot as plt
 
+
 people = [
-	{
-		"name": "Sigrid",
-		"months": 30
-	},
-	{
-		"name": "Viktor",
-		"months": 11
-	},
-	{
-		"name": "Amanda",
-		"months": 2
-	},
-	{
-		"name": "Filip",
-		"months": 2
-	},
+	# {
+	# 	"name": "Sigrid",
+	# 	"months": 45
+	# },
 	{
 		"name": "Samuel",
-		"months": 1
+		"months": 16
 	},
 	{
 		"name": "Jacob",
-		"months": 8
+		"months": 23
 	},
-	{
-		"name": "Kajsabet",
-		"months": 10
-	},
+	# {
+	# 	"name": "Kajsabet",
+	# 	"months": 25
+	# },
 	{
 		"name": "Jonas",
-		"months": 10
-	},
-	{
-		"name": "Nils",
-		"months": 36
+		"months": 25
 	},
 	{
 		"name": "Siri",
-		"months": 2
+		"months": 17
 	},
-	{
-		"name": "Caroline",
-		"months": 9
-	},
-	{
-		"name": "Maria",
-		"months": 2
-	},
+	# {
+	# 	"name": "Caroline",
+	# 	"months": 24
+	# },
 	{
 		"name": "Kerstin",
-		"months": 3
+		"months": 18
 	},
 	{
 		"name": "Magnus",
-		"months": 36
+		"months": 51
 	},
 	{
 		"name": "Martin",
-		"months": 20
-	}
+		"months": 35
+	},
+	{
+		"name": "Emma",
+		"months": 14,
+	},
+	{
+		"name": "Karolin",
+		"months": 3,
+	},
+	{
+		"name": "Marika",
+		"months": 7,
+	},
+	{
+		"name": "Simon",
+		"months": 9,
+	},
 ]
 
 # Coordinates of seats
@@ -73,16 +70,16 @@ seats = [
 	[3, 0],
 	[4, 0],
 	[5, 0],
-	[6, 0],
-	[7, 0],
+	# [6, 0],
+	# [7, 0],
 	[0, 1],
 	[1, 1],
 	[2, 1],
 	[3, 1],
 	[4, 1],
 	[5, 1],
-	[6, 1],
-	[7, 1]
+	# [6, 1],
+	# [7, 1]
 ]
 
 names = [person["name"] for person in people]
