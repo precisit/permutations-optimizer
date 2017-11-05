@@ -2,63 +2,91 @@ import random
 import math
 from matplotlib import pyplot as plt
 
+discRadians = {
+	"is":	15 * math.pi,
+	"i":	 45 * math.pi,
+	"id":	75 * math.pi,
+	"di":	105 * math.pi,
+	"d":	 135 * math.pi,
+	"dc":	165 * math.pi,
+	"cd":	195 * math.pi,
+	"c":	 225 * math.pi,
+	"cs":	255 * math.pi,
+	"sc":	285 * math.pi,
+	"s":	 315 * math.pi,
+	"si":	345 * math.pi,
+}
 
 people = [
 	# {
 	# 	"name": "Sigrid",
-	# 	"months": 45
+	# 	"months": 45,
+	# "disc": "c"
 	# },
 	{
 		"name": "Samuel",
-		"months": 16
+		"months": 16,
+		"disc": "c"
 	},
 	{
 		"name": "Jacob",
-		"months": 23
+		"months": 23,
+		"disc": "c"
 	},
 	# {
 	# 	"name": "Kajsabet",
-	# 	"months": 25
+	# 	"months": 25,
+	# "disc": "c"
 	# },
 	{
 		"name": "Jonas",
-		"months": 25
+		"months": 25,
+		"disc": "c"
 	},
 	{
 		"name": "Siri",
-		"months": 17
+		"months": 17,
+		"disc": "c"
 	},
 	# {
 	# 	"name": "Caroline",
-	# 	"months": 24
+	# 	"months": 24,
+	# "disc": "c"
 	# },
 	{
 		"name": "Kerstin",
-		"months": 18
+		"months": 18,
+		"disc": "c"
 	},
 	{
 		"name": "Magnus",
-		"months": 51
+		"months": 51,
+		"disc": "c"
 	},
 	{
 		"name": "Martin",
-		"months": 35
+		"months": 35,
+		"disc": "c"
 	},
 	{
 		"name": "Emma",
 		"months": 14,
+		"disc": "c"
 	},
 	{
 		"name": "Karolin",
 		"months": 3,
+		"disc": "c"
 	},
 	{
 		"name": "Marika",
 		"months": 7,
+		"disc": "c"
 	},
 	{
 		"name": "Simon",
 		"months": 9,
+		"disc": "c"
 	},
 ]
 
@@ -84,6 +112,7 @@ seats = [
 
 names = [person["name"] for person in people]
 monthsInCompany = [person["months"] for person in people]
+discProfiles = [person["disc"] for person in people]
 
 def getSeatPairScore(seats):
 	seatPairScore = [[] for seat in seats]
@@ -113,6 +142,19 @@ def timeDifferenceObjectiveFunction(personOrder):
 	r = range(len(p))
 	return sum([-abs(monthsInCompany[p[j]] - monthsInCompany[p[i]])*seatPairScore[j][i] for i in r for j in r])
 
+def discDifferenceObjectiveFunction(personOrder):
+	p = personOrder
+	r = range(len(p))
+	d1 = discRadians[discProfiles[p[i]]]
+	d2 = discRadians[discProfiles[p[j]]]
+
+	x1 = cos(d1)
+	y1 = sin(d1)
+	x2 = cos(d2)
+	y2 = sin(d2)
+
+	return sum(((x1-x2)^2 + (y1-y2)^2)*seatPairScore[j][i] for i in r for j in r])
+
 def getNewPersonOrder(personOrder):
 	n = len(personOrder)
 	newPersonOrder = list(personOrder)
@@ -139,14 +181,14 @@ if __name__ == '__main__':
 	bestCost = float("inf")
 	bestPersonOrder = []
 
-	iAll = range(10000)
+	iAll = range(100)
 	costs = list(iAll)
 
 	for i in iAll:
 		newPersonOrder = getNewPersonOrder(personOrder)
 
-		cost1 = timeDifferenceObjectiveFunction(personOrder)
-		cost2 = timeDifferenceObjectiveFunction(newPersonOrder)
+		cost1 = discDifferenceObjectiveFunction(personOrder)
+		cost2 = discDifferenceObjectiveFunction(newPersonOrder)
 
 		costs[i] = cost1
 
